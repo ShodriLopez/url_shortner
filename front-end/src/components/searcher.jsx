@@ -3,7 +3,7 @@ import axios from 'axios';
 import LinkViewer from "./LinkViewer";
 import { RequestContext } from "../contexts/RequestContext.jsx";
 
-const baseUrl = process.env.HOST || 'http://localhost:8000/api/'; //obtener del .env
+const baseUrl = import.meta.env.VITE_HOST || 'http://localhost:8000/api/'; //obtener del .env
 
 const Searcher = ({ handleModal, children }) => {
     
@@ -32,7 +32,7 @@ const Searcher = ({ handleModal, children }) => {
             "url": input.toString().toLowerCase().trim()
         };
     
-        await axios.post(baseUrl+'shorten', formatStr)
+        await axios.post(baseUrl+'shorten', { url: formatStr })
         .then(res => {
             setLoading(false);
             setLink(baseUrl+res.data.shortUrl);
@@ -54,7 +54,7 @@ const Searcher = ({ handleModal, children }) => {
         <div className="w-3/5">
             <form action="#" method="POST"
             onSubmit={(e) => getShortenedLink(e)}>
-                <label className="block mb-2 font-bebasNeue text-6xl text-center sm:text-left font-medium text-gray-900 dark:text-white">{children}</label>
+                <label className="block mb-2 font-bebasNeue text-6xl text-center sm:text-left font-medium text-gray-900">{children}</label>
                 <input type="text" id="link-text" onChange={handleChange}
                 className="bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="https://www.long_link.com/search?q=long+link&sca_esv=600sxsrf=ACVn0-VFDypE1u-s9gbpRow%3A1706=gws-wiz-serp"/>
